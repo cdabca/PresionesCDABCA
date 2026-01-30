@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presiones CDA Barrancabermeja</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #3b82f6;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --accent-light: #fbbf24;
+            --bg: #020617;
+            --card-bg: #0f172a;
+            --card-border: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --separator: #334155;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #0f172a 50%, var(--bg) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(37, 99, 235, 0.03) 2px, rgba(37, 99, 235, 0.03) 4px),
+                radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tab-button {
+            font-family: 'Rubik', sans-serif;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .tab-button:hover::before {
+            left: 100%;
+        }
+
+        .tab-button:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--card-border);
+            color: var(--text);
+            font-size: 1rem;
+            font-family: 'Rubik', sans-serif;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .wheels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .wheel-input {
+            background: rgba(37, 99, 235, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--card-border);
+            transition: all 0.3s ease;
+        }
+
+        .wheel-input:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .wheel-label {
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text);
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 2px solid var(--danger);
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 6px;
+        }
+
+        .btn-secondary:hover {
+            background: var(--danger);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .btn-copy {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 2px solid var(--success);
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 6px;
+        }
+
+        .btn-copy:hover {
+            background: var(--success);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: var(--text);
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        }
+
+        /* Estilos mejorados para la visualización de vehículos */
+        .vehicle-display {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(245, 158, 11, 0.03) 100%);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .vehicle-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 12px 0 0 12px;
+        }
+
+        .vehicle-display:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Separador visual entre vehículos */
+        .vehicle-separator {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--separator), transparent);
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .vehicle-separator::after {
+            content: '⬥';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            color: var(--primary);
+            padding: 0 1rem;
+            font-size: 1.2rem;
+        }
+
+        .plate-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+        }
+
+        .vehicle-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .badge-car {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text);
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .badge-moto {
+            background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%);
+            color: var(--text);
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-second {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: var(--text);
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .wheels-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .wheel-display {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid var(--card-border);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wheel-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .wheel-display:hover::before {
+            left: 100%;
+        }
+
+        .wheel-display:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .wheel-name {
+            color: var(--accent-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .wheel-pressure {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text);
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .wheel-unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-left: 0.3rem;
+        }
+
+        .spare-display {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid var(--accent);
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 12px;
+            border: 2px dashed var(--card-border);
+        }
+
+        .vehicles-table {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(37, 99, 235, 0.1);
+            font-weight: 700;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+        }
+
+        .table-row:hover {
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-plate {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .table-date {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .table-actions {
+            text-align: right;
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 2px solid var(--danger);
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            border-radius: 6px;
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: var(--text);
+        }
+
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: var(--text);
+            padding: 1.2rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Modal para PIN */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--card-border);
+            color: var(--text);
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: 0.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: var(--text);
+        }
+
+        .modal-btn-confirm:hover {
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-cancel {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-muted);
+            border: 2px solid var(--card-border);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--card-border);
+            color: var(--text);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(37, 99, 235, 0.05);
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid var(--card-border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            .wheels-grid,
+            .wheels-display {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .table-actions {
+                text-align: left;
+            }
+
+            .plate-number {
+                font-size: 1.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary,
+            .btn-copy {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Presiones CDA</h1>
+            <div class="subtitle">Barrancabermeja</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('register')">📝 Registrar</button>
+            <button class="tab-button" onclick="switchTab('display')">📊 Visualizar</button>
+            <button class="tab-button" onclick="switchTab('list')">📋 Lista Completa</button>
+        </div>
+
+        <!-- Pestaña de Registro -->
+        <div id="register-tab" class="tab-content active">
+            <div class="card">
+                <form id="pressure-form">
+                    <div class="form-group">
+                        <label for="plate">Placa del Vehículo</label>
+                        <input type="text" id="plate" placeholder="Ej: ABC123" required style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vehicle-type">Tipo de Vehículo</label>
+                        <select id="vehicle-type" required onchange="updateWheelsDisplay()">
+                            <option value="">Seleccione...</option>
+                            <option value="carro">🚗 Carro</option>
+                            <option value="moto">🏍️ Moto</option>
+                        </select>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is-second-time">
+                        <label for="is-second-time">⚠️ Marcar como segunda vez (mismo día)</label>
+                    </div>
+
+                    <div id="wheels-container"></div>
+
+                    <div id="spare-container" style="display: none;">
+                        <div id="spare-input" style="margin-top: 1rem;">
+                            <label for="spare-pressure">Presión del Repuesto (PSI)</label>
+                            <input type="number" id="spare-pressure" placeholder="Ej: 32" step="0.1" min="0">
+                        </div>
+                        <div class="checkbox-group" style="margin-top: 1rem;">
+                            <input type="checkbox" id="no-spare" onchange="toggleSpareInput()">
+                            <label for="no-spare">❌ No tiene llanta de repuesto</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">💾 Guardar Presiones</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Pestaña de Visualización -->
+        <div id="display-tab" class="tab-content">
+            <div class="card">
+                <button class="btn-clear" onclick="showClearModal()">
+                    🗑️ Limpiar Registros del Día
+                </button>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-vehicles">0</div>
+                        <div class="stat-label">Total Vehículos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-cars">0</div>
+                        <div class="stat-label">Carros 🚗</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-motos">0</div>
+                        <div class="stat-label">Motos 🏍️</div>
+                    </div>
+                </div>
+
+                <div id="vehicles-display"></div>
+            </div>
+        </div>
+
+        <!-- Pestaña de Lista -->
+        <div id="list-tab" class="tab-content">
+            <div class="card">
+                <div id="vehicles-table"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Modal para PIN -->
+    <div id="pin-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">🔐 Ingrese el PIN</h3>
+            <input type="password" id="pin-input" class="modal-input" placeholder="••••" maxlength="4">
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closePinModal()">Cancelar</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmClear()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'vehicles';
+        const DATE_KEY = 'lastClearDate';
+        const CORRECT_PIN = '1234';
+
+        // Verificar y limpiar datos si es un nuevo día
+        function checkAndClearIfNewDay() {
+            const today = new Date().toDateString();
+            const lastClearDate = localStorage.getItem(DATE_KEY);
+            
+            if (lastClearDate !== today) {
+                // Es un nuevo día, limpiar los datos
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.setItem(DATE_KEY, today);
+                console.log('Nuevo día detectado. Datos limpiados automáticamente.');
+            }
+        }
+
+        // Cambiar de pestaña
+        function switchTab(tabName) {
+            // Remover clase active de todos los botones y contenidos
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Agregar clase active al botón y contenido seleccionado
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Cargar datos si es necesario
+            if (tabName === 'display') {
+                loadVehicles();
+            } else if (tabName === 'list') {
+                loadVehiclesList();
+            }
+        }
+
+        // Actualizar visualización de ruedas según tipo de vehículo
+        function updateWheelsDisplay() {
+            const vehicleType = document.getElementById('vehicle-type').value;
+            const container = document.getElementById('wheels-container');
+            const spareContainer = document.getElementById('spare-container');
+            
+            if (!vehicleType) {
+                container.innerHTML = '';
+                spareContainer.style.display = 'none';
+                return;
+            }
+            
+            if (vehicleType === 'moto') {
+                spareContainer.style.display = 'none';
+                container.innerHTML = `
+                    <div class="wheels-grid">
+                        <div class="wheel-input">
+                            <label class="wheel-label">🏍️ Rueda Delantera (PSI)</label>
+                            <input type="number" id="front-pressure" placeholder="Ej: 28" step="0.1" min="0" required>
+                        </div>
+                        <div class="wheel-input">
+                            <label class="wheel-label">🏍️ Rueda Trasera (PSI)</label>
+                            <input type="number" id="rear-pressure" placeholder="Ej: 32" step="0.1" min="0" required>
+                        </div>
+                    </div>
+                `;
+            } else {
+                spareContainer.style.display = 'block';
+                // Por defecto, el campo de repuesto está visible y es requerido
+                document.getElementById('spare-pressure').setAttribute('required', 'required');
+                document.getElementById('no-spare').checked = false;
+                
+                container.innerHTML = `
+                    <div class="wheels-grid">
+                        <div class="wheel-input">
+                            <label class="wheel-label">Delantera Izquierda (PSI)</label>
+                            <input type="number" id="front-left" placeholder="Ej: 32" step="0.1" min="0" required>
+                        </div>
+                        <div class="wheel-input">
+                            <label class="wheel-label">Delantera Derecha (PSI)</label>
+                            <input type="number" id="front-right" placeholder="Ej: 32" step="0.1" min="0" required>
+                        </div>
+                        <div class="wheel-input">
+                            <label class="wheel-label">Trasera Izquierda (PSI)</label>
+                            <input type="number" id="rear-left" placeholder="Ej: 32" step="0.1" min="0" required>
+                        </div>
+                        <div class="wheel-input">
+                            <label class="wheel-label">Trasera Derecha (PSI)</label>
+                            <input type="number" id="rear-right" placeholder="Ej: 32" step="0.1" min="0" required>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Mostrar/ocultar input de repuesto (ahora funciona al revés)
+        function toggleSpareInput() {
+            const noSpare = document.getElementById('no-spare').checked;
+            const sparePressure = document.getElementById('spare-pressure');
+            
+            if (noSpare) {
+                // Si marca "no tiene repuesto", deshabilitamos y limpiamos el campo
+                sparePressure.removeAttribute('required');
+                sparePressure.value = '';
+                sparePressure.disabled = true;
+                sparePressure.style.opacity = '0.5';
+            } else {
+                // Si desmarca, habilitamos el campo y lo hacemos requerido
+                sparePressure.setAttribute('required', 'required');
+                sparePressure.disabled = false;
+                sparePressure.style.opacity = '1';
+            }
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('pressure-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const plate = document.getElementById('plate').value.toUpperCase().trim();
+            const vehicleType = document.getElementById('vehicle-type').value;
+            const isSecondTimeManual = document.getElementById('is-second-time').checked;
+            
+            if (!plate || !vehicleType) {
+                showNotification('Por favor complete todos los campos');
+                return;
+            }
+            
+            // Obtener vehículos existentes
+            let vehicles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            
+            // Verificar si ya existe la placa hoy (detección automática)
+            const existingVehicle = vehicles.find(v => v.plate === plate);
+            const secondTime = existingVehicle !== undefined || isSecondTimeManual;
+            
+            const vehicleData = {
+                plate: plate,
+                vehicleType: vehicleType,
+                timestamp: new Date().toLocaleString('es-CO'),
+                secondTime: secondTime,
+                pressures: {},
+                hasSpare: false,
+                spare: null
+            };
+            
+            if (vehicleType === 'moto') {
+                vehicleData.pressures = {
+                    front: parseFloat(document.getElementById('front-pressure').value),
+                    rear: parseFloat(document.getElementById('rear-pressure').value)
+                };
+            } else {
+                vehicleData.pressures = {
+                    frontLeft: parseFloat(document.getElementById('front-left').value),
+                    frontRight: parseFloat(document.getElementById('front-right').value),
+                    rearLeft: parseFloat(document.getElementById('rear-left').value),
+                    rearRight: parseFloat(document.getElementById('rear-right').value)
+                };
+                
+                const noSpare = document.getElementById('no-spare').checked;
+                if (!noSpare) {
+                    const spareValue = document.getElementById('spare-pressure').value;
+                    if (spareValue) {
+                        vehicleData.hasSpare = true;
+                        vehicleData.spare = parseFloat(spareValue);
+                    }
+                }
+            }
+            
+            // Agregar al INICIO del array (último registro primero)
+            vehicles.unshift(vehicleData);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+            
+            if (secondTime) {
+                showNotification(`⚠️ Presiones guardadas - Segunda vez para ${plate}`);
+            } else {
+                showNotification(`✅ Presiones guardadas correctamente para ${plate}`);
+            }
+            
+            // Limpiar formulario
+            document.getElementById('pressure-form').reset();
+            document.getElementById('wheels-container').innerHTML = '';
+            document.getElementById('spare-container').style.display = 'none';
+        });
+
+        // Formatear presión con coma decimal
+        function formatPressure(value) {
+            return parseFloat(value).toFixed(1).replace('.', ',');
+        }
+
+        // Cargar vehículos en la visualización
+        function loadVehicles() {
+            const vehicles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            const container = document.getElementById('vehicles-display');
+            
+            // Actualizar estadísticas
+            const totalCars = vehicles.filter(v => v.vehicleType === 'carro').length;
+            const totalMotos = vehicles.filter(v => v.vehicleType === 'moto').length;
+            document.getElementById('total-vehicles').textContent = vehicles.length;
+            document.getElementById('total-cars').textContent = totalCars;
+            document.getElementById('total-motos').textContent = totalMotos;
+            
+            if (vehicles.length === 0) {
+                container.innerHTML = '<div class="no-data">📭 No hay presiones registradas aún</div>';
+                return;
+            }
+            
+            container.innerHTML = vehicles.map((vehicle, index) => {
+                const vehicleTypeLabel = vehicle.vehicleType === 'moto' 
+                    ? '<span class="vehicle-badge badge-moto">🏍️ MOTO</span>' 
+                    : '<span class="vehicle-badge badge-car">🚗 CARRO</span>';
+                
+                const secondTimeLabel = vehicle.secondTime 
+                    ? '<span class="vehicle-badge badge-second">⚠️ SEGUNDA VEZ</span>' 
+                    : '';
+                
+                let wheelsHTML = '';
+                
+                if (vehicle.vehicleType === 'moto') {
+                    wheelsHTML = `
+                        <div class="wheel-display">
+                            <div class="wheel-name">🏍️ Rueda Delantera</div>
+                            <div class="wheel-pressure">
+                                ${formatPressure(vehicle.pressures.front)}
+                                <span class="wheel-unit">PSI</span>
+                            </div>
+                        </div>
+                        <div class="wheel-display">
+                            <div class="wheel-name">🏍️ Rueda Trasera</div>
+                            <div class="wheel-pressure">
+                                ${formatPressure(vehicle.pressures.rear)}
+                                <span class="wheel-unit">PSI</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    wheelsHTML = `
+                        <div class="wheel-display">
+                            <div class="wheel-name">Delantera Izquierda</div>
+                            <div class="wheel-pressure">
+                                ${formatPressure(vehicle.pressures.frontLeft)}
+                                <span class="wheel-unit">PSI</span>
+                            </div>
+                        </div>
+                        <div class="wheel-display">
+                            <div class="wheel-name">Delantera Derecha</div>
+                            <div class="wheel-pressure">
+                                ${formatPressure(vehicle.pressures.frontRight)}
+                                <span class="wheel-unit">PSI</span>
+                            </div>
+                        </div>
+                        <div class="wheel-display">
+                            <div class="wheel-name">Trasera Izquierda</div>
+                            <div class="wheel-pressure">
+                                ${formatPressure(vehicle.pressures.rearLeft)}
+                                <span class="wheel-unit">PSI</span>
+                            </div>
+                        </div>
+                        <div class="wheel-display">
+                            <div class="wheel-name">Trasera Derecha</div>
+                            <div class="wheel-pressure">
+                                ${formatPressure(vehicle.pressures.rearRight)}
+                                <span class="wheel-unit">PSI</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                const spareHTML = vehicle.vehicleType === 'carro' ? `
+                    <div class="spare-display">
+                        <div>
+                            <div class="wheel-name">${vehicle.hasSpare ? '🔧 Repuesto' : '❌ Sin Repuesto'}</div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem;">
+                                ${vehicle.timestamp}
+                            </div>
+                        </div>
+                        ${vehicle.hasSpare ? `
+                        <div class="wheel-pressure">
+                            ${formatPressure(vehicle.spare)}
+                            <span class="wheel-unit">PSI</span>
+                        </div>
+                        ` : `
+                        <div style="color: var(--text-muted); font-size: 1rem;">
+                            No registrado
+                        </div>
+                        `}
+                    </div>
+                ` : `
+                    <div style="text-align: right; color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;">
+                        📅 ${vehicle.timestamp}
+                    </div>
+                `;
+                
+                const separator = index < vehicles.length - 1 ? '<div class="vehicle-separator"></div>' : '';
+                
+                return `
+                    <div class="vehicle-display">
+                        <div class="plate-number">
+                            ${vehicle.plate}
+                            ${vehicleTypeLabel}
+                            ${secondTimeLabel}
+                        </div>
+                        <div class="wheels-display">
+                            ${wheelsHTML}
+                        </div>
+                        ${spareHTML}
+                        <div class="action-buttons">
+                            <button onclick="copyData('${vehicle.plate}', ${index})" class="btn-copy">
+                                📋 Copiar Datos
+                            </button>
+                            <button onclick="deleteVehicle('${vehicle.plate}', ${index})" class="btn-secondary">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </div>
+                    ${separator}
+                `;
+            }).join('');
+        }
+
+        // Copiar datos
+        function copyData(plate, index) {
+            const vehicles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            const vehicle = vehicles[index];
+            
+            if (!vehicle) return;
+            
+            let text = `═══════════════════════════════\n`;
+            text += `   PRESIONES CDA - REPORTE   \n`;
+            text += `═══════════════════════════════\n\n`;
+            text += `PLACA: ${vehicle.plate}\n`;
+            text += `TIPO: ${vehicle.vehicleType === 'moto' ? 'MOTO 🏍️' : 'CARRO 🚗'}\n`;
+            if (vehicle.secondTime) {
+                text += `⚠️ SEGUNDA VEZ (MISMO DÍA)\n`;
+            }
+            text += `FECHA: ${vehicle.timestamp}\n\n`;
+            text += `───────────────────────────────\n`;
+            text += `PRESIONES (PSI):\n`;
+            text += `───────────────────────────────\n`;
+            
+            if (vehicle.vehicleType === 'moto') {
+                text += `🏍️ Rueda Delantera: ${formatPressure(vehicle.pressures.front)} PSI\n`;
+                text += `🏍️ Rueda Trasera: ${formatPressure(vehicle.pressures.rear)} PSI\n`;
+            } else {
+                text += `Delantera Izquierda: ${formatPressure(vehicle.pressures.frontLeft)} PSI\n`;
+                text += `Delantera Derecha: ${formatPressure(vehicle.pressures.frontRight)} PSI\n`;
+                text += `Trasera Izquierda: ${formatPressure(vehicle.pressures.rearLeft)} PSI\n`;
+                text += `Trasera Derecha: ${formatPressure(vehicle.pressures.rearRight)} PSI\n`;
+                
+                if (vehicle.hasSpare) {
+                    text += `🔧 Repuesto: ${formatPressure(vehicle.spare)} PSI\n`;
+                }
+            }
+            
+            text += `═══════════════════════════════\n`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('📋 Datos copiados al portapapeles');
+            });
+        }
+
+        // Eliminar vehículo
+        function deleteVehicle(plate, index) {
+            if (!confirm(`¿Está seguro de eliminar el registro de la placa ${plate}?`)) return;
+            
+            let vehicles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            vehicles.splice(index, 1);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+            
+            loadVehicles();
+            loadVehiclesList();
+            showNotification('🗑️ Registro eliminado correctamente');
+        }
+
+        // Cargar lista de vehículos
+        function loadVehiclesList() {
+            const vehicles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            const container = document.getElementById('vehicles-table');
+            
+            if (vehicles.length === 0) {
+                container.innerHTML = '<div class="no-data">📭 No hay presiones registradas aún</div>';
+                return;
+            }
+            
+            let html = `
+                <div class="vehicles-table">
+                    <div class="table-header">
+                        <div>Placa / Tipo</div>
+                        <div>Fecha de Registro</div>
+                        <div style="text-align: right;">Acción</div>
+                    </div>
+            `;
+            
+            vehicles.forEach((vehicle, index) => {
+                const vehicleTypeIcon = vehicle.vehicleType === 'moto' ? '🏍️' : '🚗';
+                const secondTimeLabel = vehicle.secondTime ? ' <span style="color: var(--accent-light);">⚠️ 2ª VEZ</span>' : '';
+                
+                html += `
+                    <div class="table-row">
+                        <div>
+                            <div class="table-plate">${vehicleTypeIcon} ${vehicle.plate}${secondTimeLabel}</div>
+                        </div>
+                        <div class="table-date">${vehicle.timestamp}</div>
+                        <div class="table-actions">
+                            <button class="btn-delete" onclick="deleteVehicleFromList(${index})">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Eliminar vehículo desde la lista
+        function deleteVehicleFromList(index) {
+            let vehicles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            const vehicle = vehicles[index];
+            
+            if (!confirm(`¿Está seguro de eliminar el vehículo con placa ${vehicle.plate}?`)) return;
+            
+            vehicles.splice(index, 1);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+            
+            loadVehiclesList();
+            loadVehicles();
+            showNotification('🗑️ Vehículo eliminado correctamente');
+        }
+
+        // Mostrar modal de PIN
+        function showClearModal() {
+            document.getElementById('pin-modal').classList.add('show');
+            document.getElementById('pin-input').value = '';
+            document.getElementById('pin-input').focus();
+        }
+
+        // Cerrar modal de PIN
+        function closePinModal() {
+            document.getElementById('pin-modal').classList.remove('show');
+            document.getElementById('pin-input').value = '';
+        }
+
+        // Confirmar limpieza con PIN
+        function confirmClear() {
+            const pinInput = document.getElementById('pin-input').value;
+            
+            if (pinInput === CORRECT_PIN) {
+                // PIN correcto, limpiar registros
+                localStorage.removeItem(STORAGE_KEY);
+                closePinModal();
+                loadVehicles();
+                loadVehiclesList();
+                showNotification('✅ Registros limpiados correctamente');
+            } else {
+                // PIN incorrecto
+                showNotification('❌ PIN incorrecto');
+                document.getElementById('pin-input').value = '';
+                document.getElementById('pin-input').focus();
+            }
+        }
+
+        // Permitir presionar Enter en el input de PIN
+        document.getElementById('pin-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmClear();
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera de él
+        document.getElementById('pin-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePinModal();
+            }
+        });
+
+        // Mostrar notificación
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Inicializar
+        checkAndClearIfNewDay();
+        
+        // Cargar vehículos si estamos en la pestaña de visualización
+        if (document.getElementById('display-tab').classList.contains('active')) {
+            loadVehicles();
+        }
+    </script>
+</body>
+</html>
